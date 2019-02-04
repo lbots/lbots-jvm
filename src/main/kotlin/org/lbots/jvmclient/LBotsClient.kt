@@ -69,7 +69,7 @@ class LBotsClient(botID: Long, private val token: String) {
         } as Int
     }
 
-    fun userFavorited(userID: Int): Pair<Boolean, String?> {
+    fun userFavorited(userID: Long): Pair<Boolean, String?> {
         val response = request("GET", "$base/favorites/user/$userID")
         return Pair(response["favorited"] as Boolean, response["time"] as String?)
     }
