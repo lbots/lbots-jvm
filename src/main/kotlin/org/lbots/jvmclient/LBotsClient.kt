@@ -4,7 +4,7 @@ import okhttp3.*
 
 import org.json.JSONObject
 
-class LBotsClient(botID: Int, private val token: String) {
+class LBotsClient(botID: Long, private val token: String) {
     private val BASE_URL = "https://lbots.org/api/v1"
     private val base = "$BASE_URL/bots/$botID"
 
@@ -40,6 +40,7 @@ class LBotsClient(botID: Int, private val token: String) {
         }
 
         val content = response.body()!!.string()
+        println(content)
         return JSONObject(content)
     }
 
@@ -69,9 +70,12 @@ class LBotsClient(botID: Int, private val token: String) {
         } as Int
     }
 
-    fun userFavorited(userID: Int): Pair<Boolean, String?> {
+    fun userFavorited(userID: Long): Pair<Boolean, String?> {
         val response = request("GET", "$base/favorites/user/$userID")
-        return Pair(response["favorited"] as Boolean, response["time"] as String?)
+        var x: String? = null
+        if (!response.isNull("time")){
+            x = response["time"] as String
+        }
+        return Pair(response["favorited"] as Boolean, x)
     }
-
 }
