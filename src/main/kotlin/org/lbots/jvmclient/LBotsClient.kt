@@ -4,7 +4,7 @@ import okhttp3.*
 
 import org.json.JSONObject
 
-class LBotsClient(botID: Int, private val token: String) {
+class LBotsClient(botID: Long, private val token: String) {
     private val BASE_URL = "https://lbots.org/api/v1"
     private val base = "$BASE_URL/bots/$botID"
 
