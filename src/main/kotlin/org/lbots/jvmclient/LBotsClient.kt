@@ -59,11 +59,11 @@ class LBotsClient(botID: Long, private val token: String) {
             return@ratelimit response.getBoolean("success")
         } as Boolean
     }
-    // fix for now as api returns an array
-    fun favoriteCount(): Int {
+
+   fun favoriteCount(): Int {
         return ratelimiter.ratelimit("/favorites", 3, 4) {
             val response = request("GET", "$base/favorites")
-            return@ratelimit response.getJSONArray("favorites")[0]
+            return@ratelimit response.getInt("favorites")
         } as Int
     }
 
