@@ -56,7 +56,7 @@ val guildCount = 10
 myClient.updateStats(guildCount)
 ```
 
-For one particular shard, you have to provide the shards ID and the total shard count.  
+For one particular shard, you have to provide the shard's ID and the total shard count.  
 [What is sharding?]
 ```kotlin
 val shardID = 1
@@ -111,7 +111,7 @@ int guildCount = 10;
 myClient.updateStats(guildCount);
 ```
 
-For one particular shard, you have to provide the shards ID and the total shard count.  
+For one particular shard, you have to provide the shard's ID and the total shard count.  
 [What is sharding?]
 ```java
 int guildCount = 2019;
