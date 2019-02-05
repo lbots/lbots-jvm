@@ -15,9 +15,10 @@ class LBotsClient(botID: Long, private val token: String) {
         var body: RequestBody? = null
 
         if (!post_data.isNullOrEmpty()) {
-            val JSON = MediaType.parse("application/json; charset=utf-8")
-            body = RequestBody.create(JSON, JSONObject(post_data.toMap()).toString())
+            val json = MediaType.parse("application/json; charset=utf-8")
+            body = RequestBody.create(json, JSONObject(post_data.toMap()).toString())
         }
+        
         return Request.Builder().apply {
             addHeader("Content-Type", "application/json")
             addHeader("Authorization", token)
