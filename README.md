@@ -36,15 +36,24 @@ This class returns everything in a `CompletableFuture` instead.
 #### kotlin
 ##### Creating an instance of the LBotsClient
 You first have to create an instance of the LBotsClient, in order to access and use the API.  
-The LBotsClient requires your bots ID (as long) and the API token of your bots page (as String).
+The LBotsClient requires your bots ID and the API token of your bots page.
 
 For the API-token, go to https://lbots.org/bots/:id/edit and click on `API Key` to then copy or create and copy a token.  
-Pleas do not share the token with others, nor post it in your bots code, if it's public.
+Please do not share the token with others, nor post it in your bots code, if it's public.
 ```kotlin
 val MY_BOT_ID = 123456L
 val MY_LBOTS_TOKEN = "abcdef"
 
 val myClient = LBotsClient(MY_BOT_ID, MY_LBOTS_TOKEN)
+```
+
+##### Updating guild count
+You can either update the guild count for all shards, or just for one particular shard.
+
+For all shards use this:
+```kotlin
+val guildCount = 10
+myClient.updateStats(guildCount)
 ```
 
 For one particular shard, you have to provide the shards ID and the total shard count.  
@@ -85,7 +94,7 @@ You first have to create an instance of the LBotsClient, in order to access and 
 The LBotsClient requires your bots ID (as long) and the API token of your bots page (as String).
 
 For the API-token, go to https://lbots.org/bots/:id/edit and click on `API Key` to then copy or create and copy a token.  
-Pleas do not share the token with others, nor post it in your bots code, if it's public.
+Please do not share the token with others, nor post it in your bots code, if it's public.
 ```java
 long MY_BOT_ID = 123456L;
 String MY_LBOTS_TOKEN = "abcdef";
@@ -138,8 +147,8 @@ myClient.invalidate();
 
 ## Built with
 
-* [Gradle](https://gradle.org/) - Dependency Management
-* [Kotlin](https://kotlinlang.org/) - Do more with less code
+* [Gradle] - Dependency Management
+* [Kotlin] - Do more with less code
 
 ## Contributing
 
