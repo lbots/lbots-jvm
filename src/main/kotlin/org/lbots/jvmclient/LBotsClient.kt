@@ -15,11 +15,12 @@ class LBotsClient(botID: Long, private val token: String) {
         var body: RequestBody? = null
 
         if (!post_data.isNullOrEmpty()) {
-            body = FormBody.Builder().apply {
-                post_data.forEach {
-                    add(it.key, it.value.toString())
-                }
-            }.build()
+            var data_string = "{"
+            post_data.forEach {
+                data_string += '"${it.key}": ${it.value},'
+            }
+            data_string[data_string.length-1] = "}"
+            RequestBody.create(MediaType.parse("application/json; charset=utf-8"), data_string)
         }
 
         return Request.Builder().apply {
@@ -40,6 +41,7 @@ class LBotsClient(botID: Long, private val token: String) {
         }
 
         val content = response.body()!!.string()
+
         return JSONObject(content)
     }
 
@@ -71,7 +73,10 @@ class LBotsClient(botID: Long, private val token: String) {
 
     fun userFavorited(userID: Long): Pair<Boolean, String?> {
         val response = request("GET", "$base/favorites/user/$userID")
-        return Pair(response["favorited"] as Boolean, response["time"] as String?)
+        var x: String? = null
+        if (!response.isNull("time")){
+            x = response["time"] as String
+        }
+        return Pair(response["favorited"] as Boolean, x)
     }
-
 }
