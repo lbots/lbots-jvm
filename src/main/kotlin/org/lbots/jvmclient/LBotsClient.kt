@@ -43,7 +43,7 @@ class LBotsClient(botID: Long, private val token: String) {
 
     fun invalidate(): Boolean {
         val response = request("GET", "$base/invalidate")
-        return response["success"] as Boolean
+        return response.getBoolean("success")
     }
 
     fun updateStats(guildCount: Int, shardCount: Int = 1, shardID: Int = 0): Boolean {
@@ -56,14 +56,14 @@ class LBotsClient(botID: Long, private val token: String) {
 
         return ratelimiter.ratelimit("/stats", 20, 5) {
             val response = request("POST", "$base/stats", data.toMap())
-            return@ratelimit response["success"]
+            return@ratelimit response.getBoolean("success")
         } as Boolean
     }
 
    fun favoriteCount(): Int {
         return ratelimiter.ratelimit("/favorites", 3, 4) {
             val response = request("GET", "$base/favorites")
-            return@ratelimit response.getJSONArray("favorites")[0]
+            return@ratelimit response.getInt("favorites")
         } as Int
     }
 
@@ -71,8 +71,8 @@ class LBotsClient(botID: Long, private val token: String) {
         val response = request("GET", "$base/favorites/user/$userID")
         var x: String? = null
         if (!response.isNull("time")){
-            x = response["time"] as String
+            x = response.getString("time")
         }
-        return Pair(response["favorited"] as Boolean, x)
+        return Pair(response.getBoolean("favorited"), x)
     }
 }
