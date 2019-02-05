@@ -15,6 +15,7 @@ dependencies {
 ```
 
 ### Example
+#### kotlin
 ```kotlin
 val MY_BOT_ID = 123456L
 val MY_LBOTS_TOKEN = "abcdef"
@@ -41,6 +42,24 @@ val favoritedAtTime: String? = p.second
 
 // Invalidate your API token, in case it leaked.
 myClient.invalidate()
+```
+
+#### Java
+```java
+long MY_BOT_ID = 123456L;
+String MY_LBOTS_TOKEN = "abcdef";
+LBotsClient myClient = new LBotsClient(MY_BOT_ID, MY_LBOTS_TOKEN);
+int guildCount = 10;
+LBotsClient.updateStats$default(myClient, guildCount, 0, 0, 6, (Object)null);
+int shardID = 1;
+int shardCount = 2;
+myClient.updateStats(guildCount, shardCount, shardID);
+int favoriteAmount = myClient.favoriteCount();
+long targetUserID = 123123123L;
+Pair p = myClient.userFavorited(targetUserID);
+boolean favorited = (Boolean)p.getFirst();
+String favoritedAtTime = (String)p.getSecond();
+myClient.invalidate();
 ```
 
 ## Built with
