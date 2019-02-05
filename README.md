@@ -72,7 +72,7 @@ val favoriteAmount: Int = myClient.favoriteCount()
 
 ##### Check if user favorite bot
 You need the ID of the user (as long) to check, if they favorite you bot in the current quarter.  
-`second()` can return null, if the user never favorite your bot.
+`second()` may return null, in the event the specified user has not favorited your bot.
 ```kotlin
 val targetUserID = 123123123L
 val p = myClient.userFavorited(targetUserID)
@@ -128,7 +128,7 @@ int favoriteAmount = myClient.favoriteCount();
 
 ##### Check if user favorite bot
 You need the ID of the user (as long) to check, if they favorite you bot in the current quarter.  
-`getSecond()` can return null, if the user never favorite your bot.
+`getSecond()` may return null, in the event the specified user has not favorited your bot.
 ```java
 long targetUserID = 123123123L;
 
