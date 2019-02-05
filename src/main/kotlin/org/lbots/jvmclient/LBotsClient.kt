@@ -9,7 +9,7 @@ class LBotsClient(botID: Long, private val token: String) {
     private val base = "$BASE_URL/bots/$botID"
 
     private val client = OkHttpClient()
-    private val ratelimiter = RatelimitHandler
+    private val ratelimiter = RatelimitHandler()
 
     private fun build(method: String, url: String, post_data: Map<String, Int>?): Request {
         var body: RequestBody? = null
@@ -33,10 +33,12 @@ class LBotsClient(botID: Long, private val token: String) {
         val status = response.code()
 
         if (200 > status || 300 <= status){
+            response.close()
             throw HTTPException("Unexpected response code: $status")
         }
 
         val content = response.body()!!.string()
+        response.close()
 
         return JSONObject(content)
     }
@@ -46,7 +48,9 @@ class LBotsClient(botID: Long, private val token: String) {
         return response.getBoolean("success")
     }
 
-    fun updateStats(guildCount: Int, shardCount: Int = 1, shardID: Int = 0): Boolean {
+    fun updateStats(guildCount: Int) = updateStats(guildCount, 1, 0)
+
+    fun updateStats(guildCount: Int, shardCount: Int, shardID: Int): Boolean {
         val data = mutableMapOf("guild_count" to guildCount)
 
         if (shardCount > 1){

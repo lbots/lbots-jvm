@@ -1,26 +1,55 @@
 package org.lbots.jvmclient
 
 import java.lang.Thread.sleep
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.concurrent.schedule
 
-object RatelimitHandler {
-    private val ratelimits = mapOf<String, MutableList<Int>>()
+
+class RatelimitHandler {
+    private val ratelimits = mutableMapOf<String, Pair<Int, Long>>()
 
     fun ratelimit(key: String, requests: Int, seconds: Int, callable: () -> Any): Any {
-        val now = System.currentTimeMillis().toInt()
-        val entry = ratelimits[key] ?: mutableListOf(0, now)
+        val now = System.currentTimeMillis()
+        var entry = ratelimits[key] ?: Pair(0, now)
 
-        if (entry[1] + 1000*seconds >= now) {
-            entry[1] = now
-            entry[0] = 0
+        if (entry.second + 1000*seconds >= now) {
+            entry = Pair(0, now)
         }
 
-        entry[0]++
+        entry = Pair(entry.first + 1, entry.second)
 
-        if (entry[0] > requests) {
-            val waitMillis = now - entry[1]
-            sleep(waitMillis.toLong())
+        if (entry.first > requests) {
+            val waitMillis = now - entry.second
+            sleep(waitMillis)
         }
+
+        ratelimits[key] = entry
 
         return callable()
+    }
+
+    fun ratelimitNonblocking(key: String, requests: Int, seconds: Int, callable: () -> Any): CompletableFuture<Any> {
+        val fut = CompletableFuture<Any>()
+
+        val now = System.currentTimeMillis()
+        var entry = ratelimits[key] ?: Pair(0, now)
+
+        if (entry.second + 1000*seconds >= now) {
+            entry = Pair(0, now)
+        }
+
+        entry = Pair(entry.first + 1, entry.second)
+
+        ratelimits[key] = entry
+
+        if (entry.first > requests) {
+            val waitMillis = now - entry.second
+            Timer().schedule(waitMillis) {
+                fut.complete(callable())
+            }
+        }
+
+        return fut
     }
 }

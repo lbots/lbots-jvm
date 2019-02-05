@@ -50,7 +50,7 @@ long MY_BOT_ID = 123456L;
 String MY_LBOTS_TOKEN = "abcdef";
 LBotsClient myClient = new LBotsClient(MY_BOT_ID, MY_LBOTS_TOKEN);
 int guildCount = 10;
-LBotsClient.updateStats$default(myClient, guildCount, 0, 0, 6, (Object)null);
+myClient.updateStats(guildCount)
 int shardID = 1;
 int shardCount = 2;
 myClient.updateStats(guildCount, shardCount, shardID);
