@@ -15,15 +15,10 @@ class LBotsClient(botID: Long, private val token: String) {
         var body: RequestBody? = null
 
         if (!post_data.isNullOrEmpty()) {
-            var data_string = "{"
-            post_data.forEach {
-                data_string += "\"${it.key}\": ${it.value},"
-            }
-            data_string.removeSurrounding(",")
-            data_string += "}"
-            body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), data_string)
+            val json = MediaType.parse("application/json; charset=utf-8")
+            body = RequestBody.create(json, JSONObject(post_data.toMap()).toString())
         }
-
+        
         return Request.Builder().apply {
             addHeader("Content-Type", "application/json")
             addHeader("Authorization", token)
@@ -65,7 +60,7 @@ class LBotsClient(botID: Long, private val token: String) {
         } as Boolean
     }
 
-    fun favoriteCount(): Int {
+   fun favoriteCount(): Int {
         return ratelimiter.ratelimit("/favorites", 3, 4) {
             val response = request("GET", "$base/favorites")
             return@ratelimit response.getInt("favorites")
