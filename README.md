@@ -108,7 +108,7 @@ You can either update the guild count for all shards, or just for one particular
 For all shards use this:
 ```java
 int guildCount = 10;
-myClient.updateStats(guildCount)
+myClient.updateStats(guildCount);
 ```
 
 For one particular shard, you have to provide the shards ID and the total shard count.  
