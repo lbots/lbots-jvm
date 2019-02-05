@@ -14,6 +14,12 @@ dependencies {
 }
 ```
 
+### Blocking or Non-blocking
+
+In most applications that run synchronously, you'll want to use the `LBotsClient` class.
+However, when integrating this directly into a bot, one should use the `LBotsNonblockingClient` instead.
+This class returns everything in a `CompletableFuture` instead.
+
 ### Example
 #### kotlin
 ```kotlin
