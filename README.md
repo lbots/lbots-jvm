@@ -36,10 +36,10 @@ This class returns everything in a `CompletableFuture` instead.
 #### kotlin
 ##### Creating an instance of the LBotsClient
 You first have to create an instance of the LBotsClient, in order to access and use the API.  
-The LBotsClient requires your bots ID (as long) and the API token of your bots page (as String).
+The LBotsClient requires your bots ID and the API token of your bots page.
 
 For the API-token, go to https://lbots.org/bots/:id/edit and click on `API Key` to then copy or create and copy a token.  
-Pleas do not share the token with others, nor post it in your bots code, if it's public.
+Please do not share the token with others, nor post it in your bots code, if it's public.
 ```kotlin
 val MY_BOT_ID = 123456L
 val MY_LBOTS_TOKEN = "abcdef"
@@ -47,7 +47,16 @@ val MY_LBOTS_TOKEN = "abcdef"
 val myClient = LBotsClient(MY_BOT_ID, MY_LBOTS_TOKEN)
 ```
 
-For one particular shard, you have to provide the shards ID and the total shard count.  
+##### Updating guild count
+You can either update the guild count for all shards, or just for one particular shard.
+
+For all shards use this:
+```kotlin
+val guildCount = 10
+myClient.updateStats(guildCount)
+```
+
+For one particular shard, you have to provide the shard's ID and the total shard count.  
 [What is sharding?]
 ```kotlin
 val shardID = 1
@@ -63,7 +72,7 @@ val favoriteAmount: Int = myClient.favoriteCount()
 
 ##### Check if user favorite bot
 You need the ID of the user (as long) to check, if they favorite you bot in the current quarter.  
-`second()` can return null, if the user never favorite your bot.
+`second()` may return null, in the event the specified user has not favorited your bot.
 ```kotlin
 val targetUserID = 123123123L
 val p = myClient.userFavorited(targetUserID)
@@ -85,7 +94,7 @@ You first have to create an instance of the LBotsClient, in order to access and 
 The LBotsClient requires your bots ID (as long) and the API token of your bots page (as String).
 
 For the API-token, go to https://lbots.org/bots/:id/edit and click on `API Key` to then copy or create and copy a token.  
-Pleas do not share the token with others, nor post it in your bots code, if it's public.
+Please do not share the token with others, nor post it in your bots code, if it's public.
 ```java
 long MY_BOT_ID = 123456L;
 String MY_LBOTS_TOKEN = "abcdef";
@@ -99,10 +108,10 @@ You can either update the guild count for all shards, or just for one particular
 For all shards use this:
 ```java
 int guildCount = 10;
-myClient.updateStats(guildCount)
+myClient.updateStats(guildCount);
 ```
 
-For one particular shard, you have to provide the shards ID and the total shard count.  
+For one particular shard, you have to provide the shard's ID and the total shard count.  
 [What is sharding?]
 ```java
 int guildCount = 2019;
@@ -119,7 +128,7 @@ int favoriteAmount = myClient.favoriteCount();
 
 ##### Check if user favorite bot
 You need the ID of the user (as long) to check, if they favorite you bot in the current quarter.  
-`getSecond()` can return null, if the user never favorite your bot.
+`getSecond()` may return null, in the event the specified user has not favorited your bot.
 ```java
 long targetUserID = 123123123L;
 
@@ -138,8 +147,8 @@ myClient.invalidate();
 
 ## Built with
 
-* [Gradle](https://gradle.org/) - Dependency Management
-* [Kotlin](https://kotlinlang.org/) - Do more with less code
+* [Gradle] - Dependency Management
+* [Kotlin] - Do more with less code
 
 ## Contributing
 
