@@ -60,10 +60,10 @@ class LBotsClient(botID: Long, private val token: String) {
         } as Boolean
     }
 
-    fun favoriteCount(): Int {
+   fun favoriteCount(): Int {
         return ratelimiter.ratelimit("/favorites", 3, 4) {
             val response = request("GET", "$base/favorites")
-            return@ratelimit response["favorites"]
+            return@ratelimit JSONArray(response["favorites"])[0]
         } as Int
     }
 
